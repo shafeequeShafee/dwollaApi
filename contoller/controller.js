@@ -5,11 +5,15 @@ const appSecret = "eOU8N4GydaI2H5rmSNZPPVRpitJxygy4Yrk7YpJKRo0KiTo45P";
 const dwolla = new Client({
     key: appKey,
     secret: appSecret,
-    environment: "sandbox", // optional - defaults to production
+    environment: "sandbox",
 });
+
 
 const { Customer } = require("../model/customer")
 const { BankDetails } = require("../model/bankDetails")
+
+// Creating Customer , I referred the dwolloDeveloper document, given  below the link
+//https://developers.dwolla.com/guides/send-money/create-a-customer
 
 const createCustomer = async (req, res) => {
     const customers = new Customer(req.body)
@@ -23,7 +27,13 @@ const createCustomer = async (req, res) => {
             lastName:req.body.lastName ,
             email: req.body.email,
             type: req.body.type,
-            ipAddress: req.body.ipAddress
+            address1: req.body.address1,
+            type:req.body.type ,
+            city: req.body.city,
+            state: req.body.state,
+            postalCode: req.body.postalCode,
+            dateOfBirth: req.body.dateOfBirth,
+            ssn: req.body.ssn
         }
         await dwolla.post("customers", requestBody).then(function (res) {
             res.headers.get("location");
@@ -32,7 +42,6 @@ const createCustomer = async (req, res) => {
                 customers.save()  
                 customerCreated = true    
             }
-            
               
         });
         if(customerCreated){
@@ -45,6 +54,8 @@ const createCustomer = async (req, res) => {
     }
 }
 
+// for adding bankAccountDetails , I referred the dwollo Developer document, given  below the link
+//https://developers.dwolla.com/guides/send-money/add-funding-source
 
 const addingCustBankDetails = async (req, res) => {
     const bankDetails = new BankDetails(req.body)
@@ -83,19 +94,19 @@ const addingCustBankDetails = async (req, res) => {
 
 
 
+//// for creating Transaction , I referred the dwollo Developer document, given  below the link
+//https://developers.dwolla.com/guides/send-money/create-transfer
 
 const createTransfer = async (req, res) => {
     try {
 
-        // const Sendingcustomer = await BankDetails.find({ $and: [{ "firstName": req.body.SndCusFirstName }, { "lastName": req.body.SndCusLaststName }] })
+    
         const Recievingcustomer = await BankDetails.find({"mobileNumber": req.body.mobileNumber })
 
         var currency = req.body.currency
         var amount = req.body.amount
         let transferDone = false
 
-
-        // var  SndCustomerAcntUrl= Sendingcustomer[0].accountUrl
         var RecCustomerAcntUrl = Recievingcustomer[0].accountUrl
 
         var transferRequest = {

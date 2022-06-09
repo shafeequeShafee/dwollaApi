@@ -7,7 +7,7 @@ const bankSchema = new mongoose.Schema({
         type:String
     },
     mobileNumber:{
-        type:Number,
+        type:String,
         unique:true
     },
     routingNumber:{

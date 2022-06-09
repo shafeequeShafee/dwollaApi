@@ -1,6 +1,4 @@
 
-// http://localhost:3000/dwolla/createCustomer
-
 
 const mongoose = require("mongoose")
 const customerSchema = new mongoose.Schema({
@@ -14,8 +12,29 @@ const customerSchema = new mongoose.Schema({
         
     },
     mobileNumber:{
-        type:Number,
+        type:String,
         unique:true
+    },
+    type:{
+        type:String
+    },
+    address1:{
+        type:String
+    },
+    city:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    postalCode:{
+        type:String
+    },
+    dateOfBirth:{
+        type:String
+    },
+    ssn:{
+        type:String
     },
     email:{
         type:String,
