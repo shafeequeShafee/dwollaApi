@@ -31,5 +31,5 @@ app.use('/dwolla',routerDwolla)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-    console.log("server is running 0n 3001")
+    console.log("server is running on 3000")
 })
